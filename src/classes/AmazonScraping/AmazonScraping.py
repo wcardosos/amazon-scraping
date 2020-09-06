@@ -4,6 +4,7 @@ from bs4.element import Tag
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
+from openpyxl import Workbook
 
 
 class AmazonScraping:
@@ -61,3 +62,17 @@ class AmazonScraping:
 
         return self.products
 
+    def save(self):
+        excel_file = Workbook()
+        spreadsheet = excel_file.active
+
+        spreadsheet.title = "Amazon results"
+
+        spreadsheet["A1"] = "Nome do Produto"
+        spreadsheet["B1"] = "Preço"
+
+        for product in self.products:
+            data = (product["name"], product["price"])
+            spreadsheet.append(data)
+
+        excel_file.save('iphone_results.xlsx')
