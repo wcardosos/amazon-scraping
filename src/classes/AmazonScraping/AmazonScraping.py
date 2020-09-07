@@ -40,7 +40,7 @@ class AmazonScraping:
 
         return productsElements
 
-    def extractData(self, productsElements):
+    def extract_data(self, productsElements):
         for product in productsElements:
             name = product.find('span', { "class": "a-size-base-plus a-color-base a-text-normal" })
             price = product.find('span', { "class": "a-offscreen" })
@@ -56,7 +56,7 @@ class AmazonScraping:
                 "price": price.getText()
             })
 
-    def getProducts(self):
+    def get_products(self):
         resultsElements = self.search()
 
         self.extractData(resultsElements)
