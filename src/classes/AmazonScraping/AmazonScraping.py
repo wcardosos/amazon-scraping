@@ -8,13 +8,14 @@ from openpyxl import Workbook
 
 
 class AmazonScraping:
-    def __init__(self):
+    def __init__(self, term):
+        self.term = term
         self.url = "https://www.amazon.com.br/"
         self.products = []
 
-    def search(self, term):
+    def search(self):
         option = Options()
-        #option.headless = True
+        option.headless = True
         driver = webdriver.Chrome(options=option)
 
         driver.get(self.url)
@@ -22,7 +23,7 @@ class AmazonScraping:
 
         search_input = driver.find_element_by_xpath('//*[@id="twotabsearchtextbox"]')
 
-        search_input.send_keys(term)
+        search_input.send_keys(self.term)
         search_input.send_keys(Keys.ENTER)
 
         driver.implicitly_wait(10)
@@ -55,8 +56,8 @@ class AmazonScraping:
                 "price": price.getText()
             })
 
-    def getProducts(self, term):
-        resultsElements = self.search(term)
+    def getProducts(self):
+        resultsElements = self.search()
 
         self.extractData(resultsElements)
 
@@ -75,4 +76,16 @@ class AmazonScraping:
             data = (product["name"], product["price"])
             spreadsheet.append(data)
 
-        excel_file.save('iphone_results.xlsx')
+        excel_file.save(f"{self.term}_results.xlsx")
+
+    def run(self):
+        print(f"Searching {self.term } on amazon's site ...")
+        results = self.search()
+
+        print("Extracting data from search results ...")
+        self.extractData(results)
+
+        print("Saving extracted information on Excel file ...")
+        self.save()
+
+        print("File saved")
