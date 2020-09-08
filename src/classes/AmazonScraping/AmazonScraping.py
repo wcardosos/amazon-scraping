@@ -56,13 +56,6 @@ class AmazonScraping:
                 "price": price.getText()
             })
 
-    def get_products(self):
-        results_elements = self.search()
-
-        self.extractData(results_elements)
-
-        return self.products
-
     def save(self):
         excel_file = Workbook()
         spreadsheet = excel_file.active
