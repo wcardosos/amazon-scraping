@@ -15,7 +15,7 @@ class AmazonScraping:
 
     def search(self):
         option = Options()
-        option.headless = True
+        #option.headless = True
         driver = webdriver.Chrome(options=option)
 
         driver.get(self.url)
@@ -76,7 +76,7 @@ class AmazonScraping:
         results = self.search()
 
         print("Extracting data from search results ...")
-        self.extractData(results)
+        self.extract_data(results)
 
         print("Saving extracted information on Excel file ...")
         self.save()
